@@ -244,6 +244,18 @@ function importAccounts(e){
   reader.readAsText(e.target.files[0]);
 }
 
+/* ================= PARSER UNIVERSAL ================= */
+function parseHiveLink(url){
+  const match = url.match(/@([^/]+)\/([^/?#]+)/);
+  if(!match) return null;
+
+  return {
+    author: match[1],
+    permlink: match[2]
+  };
+}
+
+/* ================= VOTE ================= */
 async function voteAll(){
 
   const link = postLink.value.trim();
@@ -252,15 +264,15 @@ async function voteAll(){
     return;
   }
 
-  /* parsing stabil */
-  const parts = link.split('/');
-  if(parts.length < 6){
+  const parsed = parseHiveLink(link);
+
+  if(!parsed){
     alert("Link tidak valid");
     return;
   }
 
-  const author = parts[4].replace('@','');
-  const permlink = parts[5];
+  const author = parsed.author;
+  const permlink = parsed.permlink;
 
   const selected = [...document.querySelectorAll('.account input:checked')];
 
