@@ -13,135 +13,130 @@ hive.config.set('chain_id','beeab0de00000000000000000000000000000000000000000000
 </script>
 
 <style>
-* { box-sizing: border-box; }
+*{box-sizing:border-box}
 
-body {
-  margin: 0;
-  padding: 16px;
-  font-family: system-ui, sans-serif;
-  background: #f4f4f4;
+body{
+margin:0;
+padding:16px;
+font-family:system-ui;
+background:#f4f4f4;
 }
 
-.container {
-  max-width: 480px;
-  margin: auto;
-  background: #fff;
-  padding: 18px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+.container{
+max-width:480px;
+margin:auto;
+background:#fff;
+padding:18px;
+border-radius:12px;
+box-shadow:0 4px 12px rgba(0,0,0,.15);
 }
 
-h2 { text-align: center; margin-bottom: 12px; }
+h2{text-align:center}
 
-.tools-bar {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 14px;
+.tools-bar{
+display:flex;
+gap:8px;
+margin-bottom:12px;
 }
 
-.tool-btn {
-  flex: 1;
-  padding: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
+.tool-btn{
+flex:1;
+padding:10px;
+border:none;
+border-radius:8px;
+font-weight:600;
+cursor:pointer;
 }
 
-.export { background: #e3f2fd; color: #1565c0; }
-.import { background: #e8f5e9; color: #2e7d32; }
+.export{background:#e3f2fd}
+.import{background:#e8f5e9}
+.selectall{background:#fff3cd}
 
-label {
-  font-size: 14px;
-  font-weight: 600;
-  margin-top: 10px;
-  display: block;
+input{
+width:100%;
+padding:12px;
+margin-top:6px;
+border-radius:8px;
+border:1px solid #ccc;
 }
 
-input[type=text], input[type=password] {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  margin-top: 6px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+.add-btn{
+margin-top:12px;
+width:100%;
+padding:14px;
+border:none;
+border-radius:10px;
+background:#4caf50;
+color:white;
+font-weight:700;
+cursor:pointer;
 }
 
-.add-btn {
-  margin-top: 14px;
-  width: 100%;
-  padding: 14px;
-  font-size: 16px;
-  font-weight: 700;
-  border-radius: 10px;
-  border: none;
-  background: #4caf50;
-  color: #fff;
-  cursor: pointer;
+/* LIST SCROLL */
+.accountList{
+max-height:220px;
+overflow:auto;
+margin-top:10px;
 }
 
-.account {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #f7f7f7;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 8px;
+.account{
+display:flex;
+align-items:center;
+gap:8px;
+background:#f7f7f7;
+padding:8px;
+border-radius:8px;
+margin-bottom:6px;
 }
 
-.account input { transform: scale(1.2); }
-
-.account-name {
-  flex: 1;
-  font-size: 15px;
-  font-weight: 600;
-  word-break: break-all;
+.account-name{
+flex:1;
+font-weight:600;
+cursor:pointer;
 }
 
-.status {
-  font-size: 12px;
-  color: #777;
+.delete-btn{
+background:#ff5252;
+color:white;
+border:none;
+padding:6px 8px;
+border-radius:6px;
+cursor:pointer;
+font-size:12px;
 }
 
-.vote-btn {
-  margin-top: 16px;
-  width: 100%;
-  padding: 16px;
-  font-size: 17px;
-  font-weight: 800;
-  border-radius: 12px;
-  border: none;
-  background: #ff5722;
-  color: #fff;
-  cursor: pointer;
+.vote-btn{
+margin-top:14px;
+width:100%;
+padding:16px;
+background:#ff5722;
+color:white;
+border:none;
+border-radius:12px;
+font-weight:800;
+cursor:pointer;
 }
 
-.progress-wrap {
-  margin-top: 14px;
+.progress{
+width:100%;
+height:10px;
+background:#ddd;
+border-radius:6px;
+margin-top:12px;
+overflow:hidden;
 }
 
-.progress {
-  width: 100%;
-  height: 10px;
-  background: #ddd;
-  border-radius: 6px;
-  overflow: hidden;
+.progress-bar{
+height:100%;
+width:0%;
+background:#4caf50;
 }
 
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: #4caf50;
-  transition: width .3s;
-}
-
-.note {
-  font-size: 12px;
-  text-align: center;
-  margin-top: 8px;
-  color: #666;
+.note{
+font-size:12px;
+text-align:center;
+margin-top:8px;
+color:#666;
 }
 </style>
 </head>
@@ -149,177 +144,179 @@ input[type=text], input[type=password] {
 <body>
 
 <div class="container">
+
 <h2>Hive Batch Upvote</h2>
 
 <div class="tools-bar">
 <button class="tool-btn export" onclick="exportAccounts()">Export</button>
-<button class="tool-btn import" onclick="document.getElementById('importFile').click()">Import</button>
+<button class="tool-btn import" onclick="importFile.click()">Import</button>
+<button class="tool-btn selectall" onclick="toggleAll()">Toggle All</button>
 <input type="file" id="importFile" hidden onchange="importAccounts(event)">
 </div>
 
-<label>Username</label>
-<input id="username" type="text">
-
-<label>Posting Private Key</label>
-<input id="postingKey" type="password">
+<input id="username" placeholder="Username">
+<input id="postingKey" placeholder="Posting Key">
 
 <button class="add-btn" onclick="addAccount()">Tambah Akun</button>
 
-<div id="accountList"></div>
+<div id="accountList" class="accountList"></div>
 
-<label>Link Post Hive</label>
-<input id="postLink" type="text">
+<input id="postLink" placeholder="Link Post Hive">
 
 <button class="vote-btn" onclick="voteAll()">Vote Semua Akun</button>
 
-<div class="progress-wrap">
 <div class="progress">
-<div class="progress-bar" id="progressBar"></div>
-</div>
-<div id="globalStatus" class="note"></div>
+<div id="progressBar" class="progress-bar"></div>
 </div>
 
-<div class="note">Delay antar akun: ±3 detik</div>
+<div id="globalStatus" class="note"></div>
+
 </div>
 
 <script>
 
-let accounts = JSON.parse(localStorage.getItem('hive_accounts') || '[]');
-const DELAY = 3000;
+let accounts = JSON.parse(localStorage.getItem('hive_accounts')||'[]')
+.map(a=>({enabled:true,...a}));
+
+const DELAY=3000;
 
 function save(){
-  localStorage.setItem('hive_accounts', JSON.stringify(accounts));
+localStorage.setItem('hive_accounts',JSON.stringify(accounts));
 }
 
 function render(){
-  accountList.innerHTML = '';
+accountList.innerHTML='';
 
-  accounts.forEach((a,i)=>{
-    accountList.innerHTML += `
-      <div class="account">
-        <input type="checkbox" checked data-i="${i}">
-        <div class="account-name">@${a.username}</div>
-        <div class="status" id="st-${i}">ready</div>
-      </div>`;
-  });
+accounts.forEach((a,i)=>{
+accountList.innerHTML+=`
+<div class="account">
+
+<input type="checkbox"
+${a.enabled?'checked':''}
+onchange="toggleAccount(${i},this.checked)">
+
+<div class="account-name"
+onclick="editAccount(${i})">
+@${a.username}
+</div>
+
+<button class="delete-btn"
+onclick="deleteAccount(${i})">Del</button>
+
+</div>`;
+});
 }
 
 function addAccount(){
 
-  const user = username.value.trim();
-  const key = postingKey.value.trim();
+let user=username.value.trim().toLowerCase();
+let key=postingKey.value.trim();
 
-  if(!user || !key){
-    alert("Isi username & key");
-    return;
-  }
+if(!user||!key)return alert("Isi data");
 
-  accounts.push({username:user, key:key});
-  save();
-  render();
+if(accounts.some(a=>a.username===user))
+return alert("Akun sudah ada");
 
-  username.value='';
-  postingKey.value='';
+accounts.push({username:user,key,enabled:true});
+save();render();
+
+username.value='';
+postingKey.value='';
+}
+
+function deleteAccount(i){
+if(!confirm("Hapus akun?"))return;
+accounts.splice(i,1);
+save();render();
+}
+
+function editAccount(i){
+
+let a=accounts[i];
+
+let newUser=prompt("Edit username",a.username);
+if(!newUser)return;
+
+let newKey=prompt("Edit key",a.key);
+if(!newKey)return;
+
+accounts[i]={username:newUser,key:newKey,enabled:a.enabled};
+
+save();render();
+}
+
+function toggleAccount(i,state){
+accounts[i].enabled=state;
+save();
+}
+
+function toggleAll(){
+let state=!accounts.every(a=>a.enabled);
+accounts.forEach(a=>a.enabled=state);
+save();render();
 }
 
 function exportAccounts(){
-  const blob = new Blob([JSON.stringify(accounts)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'hive-accounts.json';
-  a.click();
+let blob=new Blob([JSON.stringify(accounts)],{type:'application/json'});
+let a=document.createElement('a');
+a.href=URL.createObjectURL(blob);
+a.download='hive-accounts.json';
+a.click();
 }
 
 function importAccounts(e){
-  const reader = new FileReader();
-  reader.onload = ()=>{
-    try{
-      accounts = JSON.parse(reader.result);
-      save();
-      render();
-    }catch{
-      alert("File tidak valid");
-    }
-  };
-  reader.readAsText(e.target.files[0]);
+let r=new FileReader();
+r.onload=()=>{
+accounts=JSON.parse(r.result);
+save();render();
+};
+r.readAsText(e.target.files[0]);
 }
 
-/* ================= PARSER UNIVERSAL ================= */
 function parseHiveLink(url){
-  const match = url.match(/@([^/]+)\/([^/?#]+)/);
-  if(!match) return null;
-
-  return {
-    author: match[1],
-    permlink: match[2]
-  };
+let m=url.match(/@([^/]+)\/([^/?#]+)/);
+return m?{author:m[1],permlink:m[2]}:null;
 }
 
-/* ================= VOTE ================= */
 async function voteAll(){
 
-  const link = postLink.value.trim();
-  if(!link){
-    alert("Link kosong");
-    return;
-  }
+let link=postLink.value.trim();
+let parsed=parseHiveLink(link);
 
-  const parsed = parseHiveLink(link);
+if(!parsed)return alert("Link tidak valid");
 
-  if(!parsed){
-    alert("Link tidak valid");
-    return;
-  }
+let selected=accounts
+.map((a,i)=>a.enabled?{acc:a,index:i}:null)
+.filter(Boolean);
 
-  const author = parsed.author;
-  const permlink = parsed.permlink;
+if(!selected.length)return alert("Tidak ada akun aktif");
 
-  const selected = [...document.querySelectorAll('.account input:checked')];
+let done=0;
+progressBar.style.width="0%";
+globalStatus.textContent="broadcasting...";
 
-  if(selected.length === 0){
-    alert("Tidak ada akun dipilih");
-    return;
-  }
+for(let item of selected){
 
-  let done = 0;
+let acc=item.acc;
+let i=item.index;
 
-  globalStatus.textContent = "broadcasting...";
-  progressBar.style.width = "0%";
+await new Promise(res=>{
+hive.broadcast.vote(
+acc.key,
+acc.username,
+parsed.author,
+parsed.permlink,
+10000,
+(err)=>{
+done++;
+progressBar.style.width=
+Math.round(done/selected.length*100)+"%";
+setTimeout(res,DELAY);
+});
+});
+}
 
-  for(const cb of selected){
-
-    const i = cb.dataset.i;
-    const acc = accounts[i];
-
-    document.getElementById(`st-${i}`).textContent = "broadcasting";
-
-    await new Promise(res=>{
-      hive.broadcast.vote(
-        acc.key,
-        acc.username,
-        author,
-        permlink,
-        10000,
-        function(err,result){
-
-          console.log(err,result);
-
-          document.getElementById(`st-${i}`).textContent =
-            err ? "failed" : "success";
-
-          done++;
-
-          progressBar.style.width =
-            Math.round(done/selected.length*100)+"%";
-
-          setTimeout(res, DELAY);
-        }
-      );
-    });
-
-  }
-
-  globalStatus.textContent = "done";
+globalStatus.textContent="done";
 }
 
 render();
