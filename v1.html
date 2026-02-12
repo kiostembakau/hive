@@ -13,7 +13,6 @@
       color: #333;
       line-height: 1.6;
       scroll-behavior: smooth;
-      padding-top: 170px; /* space for sticky ad + header */
     }
 
     header {
@@ -39,56 +38,11 @@
       text-align: center;
     }
 
-    /* ===== STICKY RESPONSIVE AD ===== */
-    .sticky-ad {
-      position: fixed;
-      top: 60px; /* tepat di bawah header */
-      left: 0;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      z-index: 999;
-    }
-
-    .ad-container {
-      position: relative;
-      width: 728px;
-      height: 90px;
-      max-width: 100%;
-    }
-
-    .ad-container iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      border-radius: 8px;
-    }
-
-    /* Close button */
-    .ad-close {
-      position: absolute;
-      top: -8px;
-      right: -8px;
-      background: rgba(0,0,0,0.7);
-      color: #fff;
-      font-size: 12px;
-      padding: 4px 6px;
-      border-radius: 50%;
-      cursor: pointer;
-      line-height: 1;
-    }
-
-    /* Hide ad when closed */
-    #closeAd:checked + .ad-container {
-      display: none;
-    }
-
-    /* ===== LAYOUT ===== */
     .container {
       display: grid;
       grid-template-columns: 1fr 2fr 1fr;
       grid-gap: 40px;
-      margin-top: 20px;
+      margin-top: 180px; /* header + ad */
       padding: 20px;
     }
 
@@ -271,9 +225,55 @@
       background: #b10e2e;
     }
 
+    /* STICKY AD STYLING - Sekarang statis di bawah header */
+    .sticky-ad {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 60px; /* tepat di bawah header */
+      z-index: 5;
+    }
+
+    .ad-container {
+      width: 728px;
+      height: 90px;
+      max-width: 100%;
+      position: relative;
+    }
+
+    .ad-close {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: rgba(0, 0, 0, 0.4);
+      color: #fff;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 12px;
+      line-height: 18px;
+      text-align: center;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .ad-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Mobile */
     @media (max-width: 768px) {
       .container {
         grid-template-columns: 1fr;
+        margin-top: 150px; /* header + mobile ad */
+      }
+
+      .ad-container {
+        width: 320px;
+        height: 50px;
       }
 
       .left-sidebar,
@@ -286,16 +286,6 @@
       main {
         order: 1;
       }
-
-      /* mobile ad */
-      .ad-container {
-        width: 320px;
-        height: 50px;
-      }
-
-      body {
-        padding-top: 140px; /* header + mobile ad */
-      }
     }
 
     @media (hover: none) {
@@ -307,6 +297,7 @@
         transform: translateY(-2px);
       }
     }
+
   </style>
 </head>
 
@@ -316,16 +307,12 @@
     <div class="logo">Membaca Jendela Dunia</div>
   </header>
 
-  <!-- ===== STICKY AD ===== -->
+  <!-- STATIC AD -->
   <div class="sticky-ad">
     <input type="checkbox" id="closeAd" hidden>
     <div class="ad-container">
       <label for="closeAd" class="ad-close">✕</label>
-      <iframe 
-        src="//acceptable.a-ads.com/2427284/?size=Adaptive"
-        data-aa="2427284"
-        loading="lazy">
-      </iframe>
+      <iframe src="//acceptable.a-ads.com/2427284/?size=Adaptive" data-aa="2427284" loading="lazy"></iframe>
     </div>
   </div>
 
@@ -359,7 +346,8 @@
 
     <aside class="right-sidebar">
       <div class="ad-sidebar">
-        <p>Ingin jadi developer di Hive Blockchain? <a href="https://hive.io" target="_blank" rel="noopener noreferrer">Gabung sekarang!</a></p>
+        <p>Ingin jadi developer di Hive Blockchain? <a href="https://hive.io" target="_blank"
+            rel="noopener noreferrer">Gabung sekarang!</a></p>
       </div>
     </aside>
   </div>
@@ -457,4 +445,5 @@
   </script>
 
 </body>
+
 </html>
