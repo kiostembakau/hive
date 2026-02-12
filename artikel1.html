@@ -82,7 +82,6 @@
       animation: fadeIn 1s ease;
     }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
     .comments-wrapper {
       background: #f1f3f5;
       padding: 30px 20px;
@@ -117,26 +116,8 @@
     @media (max-width: 600px) {
       .article-title { font-size: 24px; }
       .article-container { margin: 20px 10px; padding: 20px; }
-      #frame iframe { width: 100% !important; }
     }
-    .comment-button:hover {
-      background-color: #b10e2e;
-    }
-    #frame {
-      width: 100%;
-      margin: 30px auto;
-      position: relative;
-      z-index: 99998;
-    }
-    #frame iframe {
-      border: 0;
-      padding: 0;
-      width: 70%;
-      height: auto;
-      overflow: hidden;
-      display: block;
-      margin: auto;
-    }
+    .comment-button:hover { background-color: #b10e2e; }
   </style>
 </head>
 
@@ -172,6 +153,7 @@
 <!-- Comments Section -->
 <div class="comments-wrapper" id="comments-wrapper" style="display:none;">
   <div class="comments-section">
+    
     <a id="comment-button" href="#" class="comment-button" style="
       display: inline-block;
       padding: 12px 40px;
@@ -188,6 +170,7 @@
     <h3>Komentar</h3>
     <div id="comments-list"></div>
   </div>
+
 </div>
 
 <script>
@@ -257,7 +240,6 @@ function renderComments(comments, parentId, depth = 0) {
       renderComments(comments, `${comment.author}/${comment.permlink}`, depth + 1);
     });
 }
-
 (async () => {
   const author = getQueryParam('author');
   const permlink = getQueryParam('permlink');
@@ -309,9 +291,10 @@ function renderComments(comments, parentId, depth = 0) {
     const articleContent = document.getElementById('article-content');
     articleContent.innerHTML = marked.parse(fixedBody);
 
-    // Sisipkan iklan setiap 3 paragraf
+    // ✅ Sisipkan iklan **sekali di tengah artikel**
     const paragraphs = articleContent.querySelectorAll('p');
-    for (let i = 2; i < paragraphs.length; i += 3) {
+    if (paragraphs.length > 0) {
+      const middleIndex = Math.floor(paragraphs.length / 2);
       const adDiv = document.createElement('div');
       adDiv.id = 'frame';
       adDiv.innerHTML = `
@@ -319,7 +302,7 @@ function renderComments(comments, parentId, depth = 0) {
           style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display:block; margin:auto'>
         </iframe>
       `;
-      paragraphs[i].parentNode.insertBefore(adDiv, paragraphs[i].nextSibling);
+      paragraphs[middleIndex].parentNode.insertBefore(adDiv, paragraphs[middleIndex].nextSibling);
     }
 
     const discussion = await loadDiscussion(author, permlink);
