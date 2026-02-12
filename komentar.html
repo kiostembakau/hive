@@ -63,7 +63,15 @@
             const wif = document.getElementById('wif').value.trim();
             const author = document.getElementById('author').value.trim();
             const parentUrl = document.getElementById('parent').value.trim();
-            const body = document.getElementById('commentBody').value.trim();
+            let body = document.getElementById('commentBody').value.trim();
+
+            const footerText = "\n\n---\nPosted With : \nhttps://kiostembakau.github.io/hive";
+
+            // Cegah double footer jika user edit ulang
+            if (!body.includes("https://kiostembakau.github.io/hive")) {
+                body += footerText;
+            }
+
             const permlink = 'comment-' + Date.now();
 
             if (!/^5[HJK][1-9A-HJ-NP-Za-km-z]{49}$/.test(wif)) {
