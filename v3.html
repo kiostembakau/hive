@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Baca Artikel</title>
+  <style>
+    /* ======================
+       RESET & BODY
+    ====================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      background: #f7f7f7;
+      color: #333;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ======================
+       HEADER
+    ====================== */
+    header {
+      background: #fff;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px;
+      border-bottom: 1px solid #e0e0e0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+    }
+
+    header .logo {
+      font-weight: bold;
+      font-size: 24px;
+      color: #e31337;
+      letter-spacing: 1px;
+    }
+
+    /* ======================
+       CONTAINER UTAMA
+    ====================== */
+    .container {
+      max-width: 800px;
+      margin: 80px auto 40px;
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ======================
+       HEADER ARTIKEL
+    ====================== */
+    .articles__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+
+    .articles__h1 {
+      font-size: 22px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .articles__header select {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      transition: border 0.3s, box-shadow 0.3s;
+    }
+
+    .articles__header select:focus {
+      outline: none;
+      border-color: #e31337;
+      box-shadow: 0 0 5px rgba(227, 19, 55, 0.5);
+    }
+
+    /* ======================
+       POSTS
+    ====================== */
+    #post-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .post {
+      background: #fff;
+      padding: 18px 20px;
+      border-radius: 10px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .post:hover {
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      transform: translateY(-4px);
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 14px;
+      color: #777;
+    }
+
+    .user__col {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .user__col img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .user__name {
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .timestamp__link {
+      font-size: 14px;
+      color: #777;
+    }
+
+    .post-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #222;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .post-summary {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* ======================
+       AD ELEMENT
+    ====================== */
+    .ad {
+      background: #f0f0f0;
+      padding: 15px 20px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      font-size: 16px;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .ad a {
+      color: #e31337;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .ad a:hover {
+      text-decoration: underline;
+    }
+
+    /* ======================
+       BUTTON LOAD MORE
+    ====================== */
+    #load-more-btn {
+      margin: 20px auto 0;
+      padding: 12px 24px;
+      background: #e31337;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s, transform 0.2s;
+      display: block;
+    }
+
+    #load-more-btn:hover {
+      background: #b10e2e;
+      transform: translateY(-2px);
+    }
+
+    /* ======================
+       RESPONSIVE
+    ====================== */
+    @media (max-width: 768px) {
+      .container {
+        max-width: 100%;
+        padding: 0 12px;
+        margin-top: 80px;
+      }
+
+      .post-title {
+        white-space: normal;
+      }
+
+      #load-more-btn {
+        width: 100%;
+      }
+    }
+
+    @media (hover: none) {
+      .post:active,
+      .ad:active {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">Membaca Jendela Dunia</div>
+  </header>
+
+  <div class="container">
+    <main>
+      <div class="articles__header">
+        <div class="articles__h1">All Posts</div>
+        <select id="sort-select">
+          <option value="created">Newest</option>
+          <option value="trending">Trending</option>
+          <option value="hot">Hot</option>
+        </select>
+      </div>
+
+      <div id="post-container"></div>
+      <button id="load-more-btn">Load More Posts</button>
+    </main>
+  </div>
+
+  <script>
+    let startAuthor = '';
+    let startPermlink = '';
+    let currentSort = 'created';
+
+    document.getElementById('sort-select').addEventListener('change', (e) => {
+      currentSort = e.target.value;
+      startAuthor = '';
+      startPermlink = '';
+      loadPosts(false);
+    });
+
+    function timeAgo(dateString) {
+      const now = new Date();
+      const date = new Date(dateString + 'Z');
+      const seconds = Math.floor((now - date) / 1000);
+
+      if (seconds < 5) return 'baru saja';
+      if (seconds < 60) return `${seconds} detik yang lalu`;
+
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `${minutes} menit yang lalu`;
+
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours} jam yang lalu`;
+
+      const days = Math.floor(hours / 24);
+      return `${days} hari yang lalu`;
+    }
+
+    async function loadPosts(loadMore = false) {
+      const params = { tag: '', limit: 10 };
+      if (loadMore && startAuthor && startPermlink) {
+        params.start_author = startAuthor;
+        params.start_permlink = startPermlink;
+      }
+
+      try {
+        const response = await fetch('https://api.hive.blog', {
+          method: 'POST',
+          body: JSON.stringify({
+            jsonrpc: '2.0',
+            method: `condenser_api.get_discussions_by_${currentSort}`,
+            params: [params],
+            id: 1
+          })
+        });
+
+        if (!response.ok) throw new Error('Network response was not ok');
+
+        const data = await response.json();
+        const posts = data.result;
+
+        const container = document.getElementById('post-container');
+        if (!loadMore) container.innerHTML = '';
+
+        posts.forEach((post, index) => {
+          const cleanBody = post.body.replace(/(<([^>]+)>)/gi, "").replace(/\n/g, ' ').substring(0, 100);
+
+          // Post element
+          const postElement = document.createElement('a');
+          postElement.className = 'post';
+          postElement.href = `artikel.html?author=${post.author}&permlink=${post.permlink}`;
+          postElement.innerHTML = `
+            <div class="post-header">
+              <div class="user__col">
+                <img loading="lazy" src="https://images.hive.blog/u/${post.author}/avatar" alt="${post.author}">
+                <span class="user__name">${post.author}</span>
+              </div>
+              <span class="timestamp__link">${timeAgo(post.created)}</span>
+            </div>
+            <div class="post-title">${post.title}</div>
+            <p class="post-summary">${cleanBody}...</p>
+          `;
+          container.appendChild(postElement);
+
+          // Sisipkan iklan setiap 3 postingan
+          if ((index + 1) % 3 === 0) {
+            const adElement = document.createElement('div');
+            adElement.className = 'ad';
+            adElement.innerHTML = `<p>Iklan: <a href="https://example.com" target="_blank">Klik di sini!</a></p>`;
+            container.appendChild(adElement);
+          }
+        });
+
+        if (posts.length > 0) {
+          const lastPost = posts[posts.length - 1];
+          startAuthor = lastPost.author;
+          startPermlink = lastPost.permlink;
+        }
+
+      } catch (error) {
+        console.error('Failed to load posts:', error);
+      }
+    }
+
+    document.getElementById('load-more-btn').addEventListener('click', () => loadPosts(true));
+
+    loadPosts();
+  </script>
+
+</body>
+
+</html>
