@@ -13,6 +13,7 @@
       color: #333;
       line-height: 1.6;
       scroll-behavior: smooth;
+      padding-top: 170px; /* space for sticky ad + header */
     }
 
     header {
@@ -38,52 +39,56 @@
       text-align: center;
     }
 
-    header nav {
+    /* ===== STICKY RESPONSIVE AD ===== */
+    .sticky-ad {
+      position: fixed;
+      top: 60px; /* tepat di bawah header */
+      left: 0;
+      width: 100%;
       display: flex;
-      gap: 20px;
       justify-content: center;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
+      z-index: 999;
     }
 
-    header form {
-      display: flex;
-      gap: 10px;
-      align-items: center;
+    .ad-container {
+      position: relative;
+      width: 728px;
+      height: 90px;
+      max-width: 100%;
     }
 
-    header input[type="text"],
-    header input[type="password"] {
-      padding: 6px 12px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      background: #fff;
-      width: 300px;
-    }
-
-    header button {
-      padding: 6px 12px;
-      background: #e31337;
-      color: #fff;
+    .ad-container iframe {
+      width: 100%;
+      height: 100%;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
+    }
+
+    /* Close button */
+    .ad-close {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      font-size: 12px;
+      padding: 4px 6px;
+      border-radius: 50%;
       cursor: pointer;
-      transition: background 0.3s;
-      font-size: 14px;
-      font-weight: 600;
+      line-height: 1;
     }
 
-    header button:hover {
-      background: #b10e2e;
+    /* Hide ad when closed */
+    #closeAd:checked + .ad-container {
+      display: none;
     }
 
+    /* ===== LAYOUT ===== */
     .container {
       display: grid;
       grid-template-columns: 1fr 2fr 1fr;
       grid-gap: 40px;
-      margin-top: 80px;
+      margin-top: 20px;
       padding: 20px;
     }
 
@@ -281,6 +286,16 @@
       main {
         order: 1;
       }
+
+      /* mobile ad */
+      .ad-container {
+        width: 320px;
+        height: 50px;
+      }
+
+      body {
+        padding-top: 140px; /* header + mobile ad */
+      }
     }
 
     @media (hover: none) {
@@ -292,67 +307,6 @@
         transform: translateY(-2px);
       }
     }
-    /* ===== STICKY TOP AD ===== */
-.sticky-ad {
-  position: fixed;
-  top: 60px; /* di bawah header */
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  z-index: 999;
-}
-
-.ad-wrapper {
-  position: relative;
-  width: 728px;
-  max-width: 95%;
-}
-
-.ad-wrapper iframe {
-  width: 100%;
-  height: 90px;
-  border: none;
-  border-radius: 8px;
-}
-
-.close-btn {
-  position: absolute;
-  right: -10px;
-  top: -10px;
-  background: rgba(0,0,0,0.6);
-  color: white;
-  font-size: 12px;
-  padding: 4px 6px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-/* Hide ad when closed */
-#closeAd:checked + .ad-wrapper {
-  display: none;
-}
-
-/* Tambah jarak supaya konten tidak ketutup */
-body {
-  padding-top: 160px;
-}
-
-/* Mobile size */
-@media (max-width: 768px) {
-  .ad-wrapper {
-    width: 320px;
-  }
-
-  .ad-wrapper iframe {
-    height: 50px;
-  }
-
-  body {
-    padding-top: 140px;
-  }
-}
-
   </style>
 </head>
 
@@ -362,25 +316,19 @@ body {
     <div class="logo">Membaca Jendela Dunia</div>
   </header>
 
-<!-- START STICKY ADS -->
-<div class="sticky-ad">
-  <input type="checkbox" id="closeAd" hidden />
-  <div class="ad-wrapper">
-    
-    <label for="closeAd" class="close-btn">✕</label>
-    
-    <iframe 
-      data-aa="2427284"
-      src="//acceptable.a-ads.com/2427284/?size=Adaptive"
-      loading="lazy">
-    </iframe>
-
+  <!-- ===== STICKY AD ===== -->
+  <div class="sticky-ad">
+    <input type="checkbox" id="closeAd" hidden>
+    <div class="ad-container">
+      <label for="closeAd" class="ad-close">✕</label>
+      <iframe 
+        src="//acceptable.a-ads.com/2427284/?size=Adaptive"
+        data-aa="2427284"
+        loading="lazy">
+      </iframe>
+    </div>
   </div>
-</div>
-<!-- END STICKY ADS -->
 
-
-  
   <div class="container">
     <aside class="left-sidebar">
       <a href="#" class="sidebar-link">All posts</a>
@@ -509,5 +457,4 @@ body {
   </script>
 
 </body>
-
 </html>
