@@ -6,8 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Baca Artikel</title>
   <style>
-    body {
+    /* ======================
+       RESET & BODY
+    ====================== */
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
+    }
+
+    body {
       font-family: 'Inter', 'Segoe UI', sans-serif;
       background: #f7f7f7;
       color: #333;
@@ -15,6 +23,14 @@
       scroll-behavior: smooth;
     }
 
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ======================
+       HEADER
+    ====================== */
     header {
       background: #fff;
       height: 60px;
@@ -35,31 +51,26 @@
       font-size: 24px;
       color: #e31337;
       letter-spacing: 1px;
-      text-align: center;
     }
 
+    /* ======================
+       CONTAINER UTAMA
+    ====================== */
     .container {
-      display: grid;
-      grid-template-columns: 1fr 2fr 1fr;
-      grid-gap: 40px;
-      margin-top: 80px;
-      padding: 20px;
-    }
-
-    /* Sidebar kiri dan kanan dihapus penampilannya */
-    .left-sidebar,
-    .right-sidebar {
-      display: none;
+      max-width: 1000px;
+      margin: 80px auto 40px;
+      padding: 0 16px;
     }
 
     main {
       display: flex;
       flex-direction: column;
-      gap: 20px;
-      min-width: 0;
-      grid-column: 1 / -1; /* Ambil semua kolom */
+      gap: 24px;
     }
 
+    /* ======================
+       HEADER ARTIKEL
+    ====================== */
     .articles__header {
       display: flex;
       justify-content: space-between;
@@ -81,22 +92,31 @@
       border: 1px solid #ccc;
       background: #fff;
       font-size: 14px;
+      cursor: pointer;
+      transition: border 0.3s, box-shadow 0.3s;
     }
 
+    .articles__header select:focus {
+      outline: none;
+      border-color: #e31337;
+      box-shadow: 0 0 5px rgba(227, 19, 55, 0.5);
+    }
+
+    /* ======================
+       POSTS
+    ====================== */
     #post-container {
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 20px;
     }
 
     .post {
       background: #fff;
-      padding: 18px;
+      padding: 18px 20px;
       border-radius: 10px;
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
       transition: box-shadow 0.3s ease, transform 0.3s ease;
-      text-decoration: none;
-      color: inherit;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -112,16 +132,11 @@
     .post-header {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
       gap: 8px;
       font-size: 14px;
       color: #777;
-      flex-wrap: wrap;
-    }
-
-    .post-header img {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
     }
 
     .user__col {
@@ -130,8 +145,16 @@
       gap: 8px;
     }
 
+    .user__col img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
     .user__name {
       font-size: 16px;
+      font-weight: 500;
     }
 
     .timestamp__link {
@@ -140,7 +163,7 @@
     }
 
     .post-title {
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 700;
       color: #222;
       margin: 0;
@@ -152,13 +175,16 @@
     .post-summary {
       font-size: 14px;
       color: #555;
-      line-height: 1.4;
+      line-height: 1.5;
       margin: 0;
     }
 
+    /* ======================
+       BUTTON LOAD MORE
+    ====================== */
     #load-more-btn {
       margin: 20px auto 0;
-      padding: 10px 20px;
+      padding: 12px 24px;
       background: #e31337;
       color: #fff;
       border: none;
@@ -166,16 +192,34 @@
       font-weight: bold;
       cursor: pointer;
       font-size: 16px;
-      transition: background 0.3s;
+      transition: background 0.3s, transform 0.2s;
+      display: block;
     }
 
     #load-more-btn:hover {
       background: #b10e2e;
+      transform: translateY(-2px);
     }
 
+    /* ======================
+       RESPONSIVE
+    ====================== */
     @media (max-width: 768px) {
+      .post-title {
+        white-space: normal;
+      }
+
       .container {
-        grid-template-columns: 1fr;
+        padding: 0 12px;
+        margin-top: 80px;
+      }
+
+      .post {
+        padding: 14px 16px;
+      }
+
+      #load-more-btn {
+        width: 100%;
       }
     }
 
@@ -197,7 +241,7 @@
   <div class="container">
     <main>
       <div class="articles__header">
-        <div class="articles__h1">All posts</div>
+        <div class="articles__h1">All Posts</div>
         <select id="sort-select">
           <option value="created">Newest</option>
           <option value="trending">Trending</option>
