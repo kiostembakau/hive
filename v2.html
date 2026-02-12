@@ -57,9 +57,11 @@
        CONTAINER UTAMA
     ====================== */
     .container {
-      max-width: 1000px;
-      margin: 80px auto 40px;
+      max-width: 800px; /* lebar konten utama */
+      margin: 80px auto 40px; /* di tengah */
       padding: 0 16px;
+      display: flex;
+      flex-direction: column;
     }
 
     main {
@@ -205,17 +207,14 @@
        RESPONSIVE
     ====================== */
     @media (max-width: 768px) {
-      .post-title {
-        white-space: normal;
-      }
-
       .container {
+        max-width: 100%;
         padding: 0 12px;
         margin-top: 80px;
       }
 
-      .post {
-        padding: 14px 16px;
+      .post-title {
+        white-space: normal;
       }
 
       #load-more-btn {
